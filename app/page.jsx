@@ -3,6 +3,7 @@ import {FiDownload} from 'react-icons/fi'
 import Socials from "@/components/Socials"
 import Photo from "@/components/Photo"
 
+const resumelink ="https://drive.google.com/file/d/11uEwq_PA4ZXrKE_VddUiPKxQAqXpl8Jv/view";
 const Home = () => {
   return (
     <section className="h-full">
@@ -15,10 +16,12 @@ const Home = () => {
             <p className="max-w-[500px] mb-6 text-white/80">I am a proficient full stack developer with expertise in Python and JavaScript. My drive lies in creating impactful technological solutions by combining my skills and creativity to deliver value in the ever-evolving tech industry.</p>
 
             <div className="flex flex-col xl:flex-row items-center gap-8">
-              <Button variant="outline" size="lg" className="uppercase flex items-center gap-2">
+            <a href={resumelink} target="_blank">
+              <Button variant="outline"  size="lg" className="uppercase flex items-center gap-2">
                 <span className="text-xl">Download CV</span>
                 <FiDownload className="text-xl"/>
               </Button>
+              </a>
               <div className="mb-8 xl:mb-0 ">
                 <Socials />
               </div>

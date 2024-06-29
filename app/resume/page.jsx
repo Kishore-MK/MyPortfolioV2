@@ -3,7 +3,7 @@ import {FaHtml5, FaCss3, FaJs, FaReact, FaNodeJs ,FaPython, FaGitAlt, FaDocker, 
 
 import { DiDjango } from "react-icons/di";
 
-import { SiFlask,SiTailwindcss, SiNextdotjs} from "react-icons/si";
+import { SiFlask,SiTailwindcss, SiNextdotjs,SiPostman} from "react-icons/si";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Tooltip, TooltipContent,TooltipProvider,TooltipTrigger } from '@/components/ui/tooltip';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -11,32 +11,29 @@ import { delay, motion } from 'framer-motion';
 
 const about ={
   title: "About me",
-  description: "",
+  description: "I am a second year student and a self-taught programmer from Coimbatore. I began my coding journey with C and Python and honed my skills and transitioned into the world of web development. With a strong foundation in data structures and algorithms, I thrive on solving complex problems efficiently. I am constantly seeking opportunities to enhance my skills and contribute meaningfully to innovative projects.",
   info:[
     {
       fieldname:"Name",
-      fieldvaluee:"Kishore Murugesan"
+      fieldvalue:"Kishore Murugesan"
     },
     {
       fieldname:"Phone",
-      fieldvaluee:"+91 90255 74460"
+      fieldvalue:"+91 90255 74460"
     },
     {
       fieldname:"Email",
-      fieldvaluee:"Kishore Murugesan"
+      fieldvalue:"thisismk@gmail.com"
     },
     {
       fieldname:"Languages",
-      fieldvaluee:"English, Tamil"
+      fieldvalue:"English, Tamil"
     },
     {
-      fieldname:"Name",
-      fieldvaluee:"Kishore Murugesan"
+      fieldname:"City",
+      fieldvalue:"Coimbatore, India"
     },
-    {
-      fieldname:"Name",
-      fieldvaluee:"Kishore Murugesan"
-    },
+   
   ]
 }
 
@@ -110,8 +107,10 @@ const skills ={
       icon: <SiTailwindcss/>,
       name: "TailwindCss"
     },
-
-
+    {
+      icon: <SiPostman/>,
+      name: "Postman",
+    },
     {
       icon: <SiNextdotjs/>,
       name: "Next.js"
@@ -124,12 +123,12 @@ const resume = () => {
     <motion.div initial={{opacity: 0}} 
     animate={{
       opacity:1, 
-      trasnition:{delay:2.4, duration:0.4, ease:"easeIn"}}}>
+      transition:{delay:2.4, duration:0.4, ease:"easeIn"}}}>
         
         <div className="min-h-[70vh] flex items-center justify-center py-12 xl:py-0">
 
           <div className="container mx-auto">
-            <Tabs defaultValue='experience' className='flex flex-col xl:flex-row gap-[60px]'>
+            <Tabs defaultValue="about"  className='flex flex-col xl:flex-row gap-[60px]'>
               <TabsList className="flex flex-col w-full max-w-[380px] mx-auto xl:mx-0 gap-6">
 
                 <TabsTrigger value="about">About me</TabsTrigger>
@@ -140,10 +139,18 @@ const resume = () => {
 
 
             <div className='min-h-[40vh] xl:min-h-[70vh] w-full'>
-              <TabsContent value="about" className="w-full">
-                  <div>
-                    <h3>{about.title}</h3>
-                    <p>{about.description}</p>
+              <TabsContent value="about" className="w-full text-center xl:text-left ">
+                  <div className='flex flex-col gap-[30px]'>
+                    <h3 className='text-4xl font-bold'>{about.title}</h3>
+                    <p className='max-w-[600px] text-white/60 mx-auto xl:mx-0'>{about.description}</p>
+                    <ul className='grid grid-cols-1 xl:grid-cols-2 gap-y-6 max-w-[620px] mx-auto xl:mx-0'>
+                      {about.info.map((item,index)=>{
+                        return <li key={index} className='flex items-center justify-center xl:justify-start gap-4'>
+                          <span className='text-white/60'>{item.fieldname}</span>
+                          <span className='text-xl'>{item.fieldvalue}</span>
+                        </li>
+                      })}
+                    </ul>
                   </div>
 
 
@@ -166,7 +173,7 @@ const resume = () => {
                           <h3 className='text-xl max-w-[260px] min-h-[60px] text-center lg:text-left'>{item.degree}</h3>
                           <div className='flex items-center gap-3'>
                             <span className='w-[6px] h-[6px] rounded-full bg-accent'></span>
-                            <p>{item.institute}</p>
+                            <p className='text-white/60'>{item.institute}</p>
                           </div>
                         </li>
                       })}
@@ -177,8 +184,38 @@ const resume = () => {
               </TabsContent>
 
 
-              <TabsContent value="skills" className="w-full">
-                
+              <TabsContent value="skills" className="h-full">
+              <div className='flex flex-col gap-[30px]'>
+              <div className='flex flex-col gap-[30px] text-center xl:text-left '>
+                    <h3 className='text-4xl font-bold'>{skills.title}</h3>
+                    <p className='max-w-[600px] text-white/60 mx-auto xl:mx-0'>
+                    {skills.description}
+                    </p>
+                  </div>
+                    
+                    <ul className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4  xl:grid-cols-5 gap-4 xl:gap-[30px] '>
+                      {skills.skillList.map((item,index)=>
+                      {
+                        return <li key={index}>
+                          <TooltipProvider delayDuration={100}>
+                            <Tooltip>
+                              <TooltipTrigger className='w-full h-[150px] bg-[#232329] rounded-xl flex justify-center items-center group'>
+                                <div className='text-6xl group-hover:text-accent  transition-all duration-300'>
+                                {item.icon}
+                                </div>
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <h3>{item.name}</h3>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                          
+                          
+                        </li>
+                      })}
+                    </ul>
+
+                  </div>
               </TabsContent>
               
             </div>
