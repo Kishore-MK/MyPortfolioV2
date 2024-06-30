@@ -21,7 +21,7 @@ const projects= [
     stack: [
       {name: "Python"},{name: "GPT-3.5-Turbo"},{name: "Flask"},
     ],
-    image:'/projects/degenthumb.png',
+    image:'/projects/degenai.png',
     live: 'https://github.com/Kishore-MK/AI-MayhemDegenAnalystAI',
     github:"https://github.com/Kishore-MK/AI-MayhemDegenAnalystAI",
   },
@@ -33,7 +33,7 @@ const projects= [
     stack: [
       {name: "Cairo"},{name: "Unity"},{name: "Dojo engine"},
     ],
-    image:'/',
+    image:'/projects/tokan.png',
     live: 'https://github.com/Kishore-MK/Nft-hunt',
     github:"https://github.com/Kishore-MK/Nft-hunt",
   },
@@ -45,7 +45,7 @@ const projects= [
     stack: [
       {name: "React.js"},{name: "Django"},{name: "PostgreSQL"},
     ],
-    image:'/projects/notesapp.png',
+    image:'/projects/notes.png',
     live: 'https://github.com/Kishore-MK/Notes-app',
     github:"https://github.com/Kishore-MK/Notes-app",
   },
@@ -57,7 +57,7 @@ const projects= [
     stack: [
       {name: "Python"},{name: "Yolo v7"},{name: "Streamlit"},
     ],
-    image:'/',
+    image:'/projects/image.png',
     live: 'https://github.com/Kishore-MK/NutrimentAI',
     github:"https://github.com/Kishore-MK/NutrimentAI",
   },
