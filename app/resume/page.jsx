@@ -18,12 +18,8 @@ const about ={
       fieldvalue:"Kishore Murugesan"
     },
     {
-      fieldname:"Phone",
-      fieldvalue:"+91 90255 74460"
-    },
-    {
       fieldname:"Email",
-      fieldvalue:"thisismk@gmail.com"
+      fieldvalue:"thisismkoffcl@gmail.com"
     },
     {
       fieldname:"Languages",
