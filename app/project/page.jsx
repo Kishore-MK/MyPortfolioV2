@@ -12,21 +12,32 @@ import WorkSliderBtns from "@/components/WorkSliderBtns";
 
 
 const projects= [
-  
   {
     num: '01',
-    category: 'Degen AI',
+    category: 'OPEN-NFT AUCTION',
     title: "title #1",
-    decription: "AI chatbot which helps users to getrealtime crypto prices and give recommendations to traders with oingecko api. It can also validates transaction address with etherscan api. Used gpt-3.5 turbo and gemini-1.5-pro in this project.",
+    decription: "a decentralized NFT auction marketplace with on-chain logic for trustless transactions and dynamic bidding. Designed a real-time system with bid updates, automated refunds, and secure finality on Bitcoin’s blockchain.",
     stack: [
-      {name: "Python"},{name: "GPT-3.5-Turbo"},{name: "Flask"},
+      {name: "Next JS"},{name: "TypeScript"},{name: "Scrypt"},
     ],
-    image:'/projects/degenai.png',
-    live: 'https://github.com/Kishore-MK/AI-MayhemDegenAnalystAI',
-    github:"https://github.com/Kishore-MK/AI-MayhemDegenAnalystAI",
+    image:'/projects/opennft.png',
+    live: 'https://open-nft-auction.vercel.app/',
+    github:"https://github.com/Kishore-MK/OpenNFTauction",
   },
   {
     num: '02',
+    category: 'Chatnote',
+    title: "title #1",
+    decription: "a chat application powered by openai and pinecone which allows users to use data from links and notes as knowlegde base. Can also use youtube transcripts and web content using RAG.",
+    stack: [
+      {name: "Next JS"},{name: "TypeScript"},{name: "Pinecone"},
+    ],
+    image:'/projects/chatnote.png',
+    live: 'https://chat-note.vercel.app/notes',
+    github:"https://github.com/Kishore-MK/ChatNote",
+  },
+  {
+    num: '03',
     category: 'Tokan Raider',
     title: "title #1",
     decription: "A 2d role playing game built on starknet with unity and cairo.",
@@ -38,7 +49,7 @@ const projects= [
     github:"https://github.com/Kishore-MK/Nft-hunt",
   },
   {
-    num: '03',
+    num: '04',
     category: 'Notes-App',
     title: "title #1",
     decription: "A web-based notes application built with leveraging the python's Django framework and React.js.",
@@ -50,7 +61,7 @@ const projects= [
     github:"https://github.com/Kishore-MK/Notes-app",
   },
   {
-    num: '04',
+    num: '05',
     category: 'Nutriment AI',
     title: "blah blah",
     decription: "It is a calory and meal planner which calculates the food calory with image input, calculates remaining calory intake and more. ",
@@ -62,7 +73,7 @@ const projects= [
     github:"https://github.com/Kishore-MK/NutrimentAI",
   },
   {
-    num: '05',
+    num: '06',
     category: 'MatchGram',
     title: "title #1",
     decription: "Built a responsive and interactive Instagram modelled clone called MatchGram with HTML, CSS and JavaScript.",

@@ -7,7 +7,7 @@ const social=[
 
 {icon: <FaLinkedinIn/> ,path:'http://www.linkedin.com/in/kishore-murugesan'},
 
-{icon: <FaTwitter/> ,path:'https://twitter.com/Ayitskixxo'},
+{icon: <FaTwitter/> ,path:'https://twitter.com/0xkeyaru'},
 
 ]
 const Socials = () => {

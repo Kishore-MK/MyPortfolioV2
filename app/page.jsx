@@ -3,7 +3,7 @@ import {FiDownload} from 'react-icons/fi'
 import Socials from "@/components/Socials"
 import Photo from "@/components/Photo"
 
-const resumelink ="https://drive.google.com/file/d/1XcFvQQ-uBfWB6xUNcfnDCPGiKCQsZJqS/view?usp=sharing";
+const resumelink ="https://drive.google.com/file/d/1ERqESG8cHht5AeBR9WlADCk4BKvHetJz/view?usp=drive_link";
 const Home = () => {
   return (
     <section className="h-full">

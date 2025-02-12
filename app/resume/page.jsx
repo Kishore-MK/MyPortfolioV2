@@ -1,5 +1,5 @@
 "use client";
-import {FaHtml5, FaCss3, FaJs, FaReact, FaNodeJs ,FaPython, FaGitAlt, FaDocker, FaLinux, } from 'react-icons/fa';
+import {FaHtml5, FaCss3, FaJs, FaReact, FaNodeJs ,FaPython, FaGitAlt, FaDocker, FaLinux, FaDatabase, } from 'react-icons/fa';
 
 import { DiDjango } from "react-icons/di";
 
@@ -98,6 +98,10 @@ const skills ={
       icon: <SiFlask/>,
       name: "Flask"
     },
+    {
+      icon: <FaDatabase/>,
+      name: "MongoDB"
+    },
 
     {
       icon: <SiTailwindcss/>,
@@ -128,8 +132,9 @@ const resume = () => {
               <TabsList className="flex flex-col w-full max-w-[380px] mx-auto xl:mx-0 gap-6">
 
                 <TabsTrigger value="about">About me</TabsTrigger>
-                <TabsTrigger value="education">Education</TabsTrigger>
                 <TabsTrigger value="skills">Skills</TabsTrigger>
+
+                <TabsTrigger value="education">Education</TabsTrigger>
 
               </TabsList>
 
