@@ -11,7 +11,7 @@ import { delay, motion } from 'framer-motion';
 
 const about ={
   title: "About me",
-  description: "I am a second year student and a self-taught programmer from Coimbatore. I began my coding journey with C and Python and honed my skills and transitioned into the world of web development. With a strong foundation in data structures and algorithms, I thrive on solving complex problems efficiently. I am constantly seeking opportunities to enhance my skills and contribute meaningfully to innovative projects.",
+  description: "I'm a third-year student and a self-taught developer from Coimbatore. I'm making my way into Web3 and AI more deeply. I can build decentralized apps on EVM-based blockchains and work on smart solutions with large language models. I love tackling tough problems and I'm always eager to improve my skills and make a real impact on exciting projects.",
   info:[
     {
       fieldname:"Name",
@@ -36,7 +36,7 @@ const about ={
 const education ={
   icon: "/cap.svg",
   title: "My education",
-  description: "desc",
+  description: "",
   items: [
     {
       institute:"Karpagam College of Engineering",

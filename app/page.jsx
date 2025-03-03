@@ -13,7 +13,7 @@ const Home = () => {
           <div className="text-center xl:text-left order-2 xl:order-none">
             <span className="text-xl">Full Stack Developer</span>
             <h1 className="h1">Hey I'm<br/><span className="text-accent">Kishore</span></h1>
-            <p className="max-w-[500px] mb-6 text-white/80">I am a proficient full stack developer with expertise in Python and JavaScript. My drive lies in creating impactful technological solutions by combining my skills and creativity to deliver value in the ever-evolving tech industry.</p>
+            <p className="max-w-[500px] mb-6 text-white/80">A self-taught developer who loves building cool stuff on web3 and craft solutions with LLMs. I’m always up for hackathons, building real-world solutions, and exploring the next big thing in tech. Let’s connect and create something awesome!</p>
 
             <div className="flex flex-col xl:flex-row items-center gap-8">
             <a href={resumelink} target="_blank">

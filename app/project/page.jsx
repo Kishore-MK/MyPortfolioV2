@@ -26,6 +26,18 @@ const projects= [
   },
   {
     num: '02',
+    category: 'Wolfie.launch',
+    title: "title #1",
+    decription: "An AI agentpad where you can launch your AI agents on STARKNET in minutes. ",
+    stack: [
+      {name: "Next JS"},{name: "TypeScript"},{name: "Cairo"},
+    ],
+    image:'/projects/wolfie.png',
+    live: 'Not Live',
+    github:"https://github.com/Kishore-MK/wolfie-launch",
+  },
+  {
+    num: '03',
     category: 'Chatnote',
     title: "title #1",
     decription: "a chat application powered by openai and pinecone which allows users to use data from links and notes as knowlegde base. Can also use youtube transcripts and web content using RAG.",
@@ -37,7 +49,7 @@ const projects= [
     github:"https://github.com/Kishore-MK/ChatNote",
   },
   {
-    num: '03',
+    num: '04',
     category: 'Tokan Raider',
     title: "title #1",
     decription: "A 2d role playing game built on starknet with unity and cairo.",
@@ -49,7 +61,7 @@ const projects= [
     github:"https://github.com/Kishore-MK/Nft-hunt",
   },
   {
-    num: '04',
+    num: '05',
     category: 'Notes-App',
     title: "title #1",
     decription: "A web-based notes application built with leveraging the python's Django framework and React.js.",
@@ -61,7 +73,7 @@ const projects= [
     github:"https://github.com/Kishore-MK/Notes-app",
   },
   {
-    num: '05',
+    num: '06',
     category: 'Nutriment AI',
     title: "blah blah",
     decription: "It is a calory and meal planner which calculates the food calory with image input, calculates remaining calory intake and more. ",
@@ -73,7 +85,7 @@ const projects= [
     github:"https://github.com/Kishore-MK/NutrimentAI",
   },
   {
-    num: '06',
+    num: '07',
     category: 'MatchGram',
     title: "title #1",
     decription: "Built a responsive and interactive Instagram modelled clone called MatchGram with HTML, CSS and JavaScript.",
