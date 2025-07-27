@@ -38,7 +38,7 @@ const sectionLayouts: {[key: string]: Omit<SectionConfig, 'id' | 'title' | 'minH
   about: { coords: { top: 50, left: 1725 }, size: { width: 550, height: 450 } },
   skills: { coords: { top: 750, left: 250 }, size: { width: 700, height: 550 } },
   experience: { coords: { top: 750, left: 1100 }, size: { width: 550, height: 650 } },
-  contact: { coords: { top: 2800, left: 1350 }, size: { width: 500, height: 400 } },
+  contact: { coords: { top: 2800, left: 1350 }, size: { width: 450, height: 200 } },
 }
 
 
@@ -70,7 +70,7 @@ export function generateSections(portfolioData: PortfolioData): Section[] {
 
     const projectSections: Section[] = portfolioData.projects.map((project, index) => {
         const CARD_WIDTH = 400;
-        const CARD_HEIGHT = 450;
+        const CARD_HEIGHT = 530;
         const GAP = 50;
         const COLS = 3;
         const BASE_X = 1800;
@@ -97,7 +97,7 @@ export function generateSections(portfolioData: PortfolioData): Section[] {
 
     const blogSections: Section[] = portfolioData.blogs.map((blog, index) => {
         const CARD_WIDTH = 450;
-        const CARD_HEIGHT = 450;
+        const CARD_HEIGHT = 500;
         const GAP = 50;
         const COLS = 2;
         const BASE_X = 2500;

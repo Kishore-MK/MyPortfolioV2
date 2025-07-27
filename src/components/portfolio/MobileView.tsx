@@ -27,8 +27,7 @@ export function MobileView({ portfolioData }: { portfolioData: PortfolioData }) 
     <div className="w-full min-h-screen bg-background overflow-y-auto">
       <div className="flex flex-col gap-12 max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
         <header className="py-8 text-center">
-            <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary">Dragfolio</h1>
-            <p className="text-muted-foreground mt-2 text-lg">A portfolio by an expert user experience designer</p>
+            <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary">I'm Kishore</h1>
         </header>
 
         <Alert className="bg-primary/5 border-primary/20">

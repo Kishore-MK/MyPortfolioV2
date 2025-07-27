@@ -24,7 +24,8 @@ export function BlogsSection({ blog }: { blog: Blog }) {
                     {blog.tags.map(tag => <Badge key={tag} variant="outline">{tag}</Badge>)}
                 </div>
                 <Button variant="link" asChild className="p-0 h-auto self-start mt-auto">
-                    <a href={blog.link}>
+                    <a href={blog.link} 
+  target="_blank" >
                         Read More <ArrowUpRight className="w-4 h-4 ml-1"/>
                     </a>
                 </Button>

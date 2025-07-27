@@ -1,13 +1,12 @@
 import { CardContent, Card } from "@/components/ui/card";
-import { portfolioData } from "@/lib/portfolio-data";
+import { PortfolioData } from "@/lib/portfolio-data";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight } from "lucide-react";
+ 
 
-const blogs = portfolioData.blogs;
-
-export function BlogsSection() {
+export function BlogsSection( blogs: PortfolioData['blogs']) {
   return (
     <div className="p-6 md:p-8 h-full flex flex-col">
       <CardContent className="p-0 flex-grow grid grid-cols-1 md:grid-cols-2 gap-6">
