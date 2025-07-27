@@ -10,7 +10,7 @@ import { ThemeToggle } from '../theme-toggle';
 import { CursorGlow } from './CursorGlow';
 import { PortfolioData } from '@/lib/portfolio-data';
 
-export function Portfolio({ portfolioData }: { portfolioData: PortfolioData }) {
+export function Portfolio({ portfolioData }: { portfolioData: PortfolioData  }) {
   const isMobile = useIsMobile();
   const [loading, setLoading] = useState(true);
 
