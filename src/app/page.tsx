@@ -1,3 +1,4 @@
+'use client';
 import { useEffect, useState } from 'react';
 import { Portfolio } from "@/components/portfolio/Portfolio";
 import { PortfolioData } from "@/lib/portfolio-data";
