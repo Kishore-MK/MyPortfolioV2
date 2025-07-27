@@ -47,7 +47,7 @@ export function Portfolio({ portfolioData }: { portfolioData: PortfolioData  }) 
             variants={textVariants}
             className="font-headline text-6xl md:text-8xl font-bold text-primary"
           >
-            Hello.
+            Loading...
           </motion.h1>
         </motion.div>
       </AnimatePresence>
