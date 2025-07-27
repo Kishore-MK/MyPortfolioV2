@@ -16,12 +16,10 @@ export default function AdminPage() {
   useEffect(() => {
     checkAuthentication();
   }, []);
-const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
-    ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-    : 'http://localhost:3001';
+
   const checkAuthentication = async () => {
     try {
-      const response = await fetch(`${baseUrl}/api/auth/check`);
+      const response = await fetch('/api/auth/check');
       const data = await response.json();
       setIsAuthenticated(data.authenticated);
     } catch (error) {
@@ -41,7 +39,7 @@ const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
     setError('');
 
     try {
-      const response = await fetch(`${baseUrl}/api/auth/auth/admin`, {
+      const response = await fetch('/api/auth/admin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

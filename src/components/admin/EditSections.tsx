@@ -63,14 +63,12 @@ export function EditSections() {
   
   // Set this to true to use Supabase
   const useLiveData = true;
-const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
-    ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-    : 'http://localhost:3001';
+
   useEffect(() => {
     async function loadData() {
       setLoading(true);
       if (useLiveData) {
-        const res = await fetch(`${baseUrl}/api/portfolio`);
+        const res = await fetch(`/api/portfolio`);
         const data = await res.json();
         setPortfolioData(data);
       } 
@@ -88,7 +86,7 @@ const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
     
     if (true) {
       try {
-        const response = await fetch(`${baseUrl}/api/portfolio`, {
+        const response = await fetch('/api/portfolio', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(portfolioData),

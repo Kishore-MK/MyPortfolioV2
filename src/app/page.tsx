@@ -7,13 +7,8 @@ async function getPortfolioData(): Promise<PortfolioData> {
   const useMockData = false;
 
 
-  // To fetch from Supabase, set useMockData to false and ensure your
-  // .env.local file is configured with your Supabase credentials.
-  const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL
-    ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-    : 'http://localhost:3001';
   
-  const res = await fetch(`${baseUrl}/api/portfolio`, { 
+  const res = await fetch('/api/portfolio', { 
     cache: 'no-store' 
   });
   
