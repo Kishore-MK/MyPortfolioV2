@@ -60,7 +60,7 @@ export async function POST(request: Request) {
   try {
     await db.transaction(async (tx) => {
       const { about, projects, experience, tweets, blogs, skills, contact } = portfolioData;
-      console.log(about);
+      
       
       // Upsert 'about' section
       const existingAbout = await tx.query.about.findFirst({ where: eq(schema.about.id, 1) });
