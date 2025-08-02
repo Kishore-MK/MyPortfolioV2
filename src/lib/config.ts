@@ -37,7 +37,7 @@ const baseSections: Omit<SectionConfig, 'coords' | 'size' | 'minHeight'>[] = [
 const sectionLayouts: {[key: string]: Omit<SectionConfig, 'id' | 'title' | 'minHeight'>} = {
   about: { coords: { top: 50, left: 1725 }, size: { width: 550, height: 450 } },
   skills: { coords: { top: 750, left: 250 }, size: { width: 700, height: 550 } },
-  experience: { coords: { top: 750, left: 1100 }, size: { width: 550, height: 650 } },
+  experience: { coords: { top: 750, left: 1100 }, size: { width: 550, height: 450 } },
   contact: { coords: { top: 2800, left: 1350 }, size: { width: 450, height: 200 } },
 }
 
