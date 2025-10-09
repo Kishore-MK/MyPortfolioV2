@@ -22,6 +22,18 @@ const nextConfig: NextConfig = {
     port: '',
     pathname: '/**',
   },
+  {
+    protocol: 'https',
+    hostname: 'azure-biological-skink-274.mypinata.cloud',
+    port: '',
+    pathname: '/ipfs/**',
+  },
+  {
+    protocol: 'https',
+    hostname: 'ipfs.io',
+    port: '',
+    pathname: '/ipfs/**',
+  },
 ],
   },
 };
