@@ -9,9 +9,8 @@ if (!process.env.DATABASE_URL) {
 
 const client = postgres(process.env.DATABASE_URL, {
   max: 1,
-  prepare: false,        // required for Supabase transaction pooler (pgBouncer)
+  prepare: false,       // required for Supabase transaction pooler (pgBouncer)
   connect_timeout: 8,
   idle_timeout: 20,
-  max_lifetime: 60 * 5,
 });
 export const db = drizzle(client, { schema });

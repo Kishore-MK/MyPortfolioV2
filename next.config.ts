@@ -1,7 +1,7 @@
 import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  allowedDevOrigins: ['kishoremurugesan.xyz', 'www.kishoremurugesan.xyz',],
   typescript: {
     ignoreBuildErrors: true,
   },
