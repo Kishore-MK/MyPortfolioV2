@@ -50,13 +50,11 @@ export type Project = {
     link: string;
 };
 
-export type Blog = {
+export type Note = {
+    id: number;
     title: string;
-    description: string;
-    image: string;
-    hint: string;
-    tags: string[];
-    link: string;
+    body: string;
+    createdAt: string;
 };
 
 export type Experience = {
@@ -85,7 +83,7 @@ export type PortfolioData = {
     experience: Experience[];
     contact: ContactSectionData;
     tweets: Tweet[];
-    blogs: Blog[];
+    notes: Note[];
 };
 
 // export const portfolioData: PortfolioData = {

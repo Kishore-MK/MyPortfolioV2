@@ -3,13 +3,11 @@ import { Card } from '@/components/ui/card';
 import { PortfolioData } from '@/lib/portfolio-data';
 import { TweetsSection } from './TweetsSection';
 import { ProjectsSection } from './ProjectsSection';
-import { BlogsSection } from './BlogsSection';
+import { NotesSection } from './NotesSection';
 import { AboutSection } from './AboutSection';
 import { SkillsSection } from './SkillsSection';
 import { ExperienceSection } from './ExperienceSection';
 import { ContactSection } from './ContactSection';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Monitor } from 'lucide-react';
 
 export function MobileView({ portfolioData }: { portfolioData: PortfolioData }) {
 
@@ -21,7 +19,7 @@ export function MobileView({ portfolioData }: { portfolioData: PortfolioData }) 
   ];
   const tweetSections = portfolioData.tweets;
   const projectSections = portfolioData.projects;
-  const blogSections = portfolioData.blogs;
+  const noteSections = portfolioData.notes;
 
   return (
     <div className="w-full min-h-screen bg-background overflow-y-auto">
@@ -30,14 +28,6 @@ export function MobileView({ portfolioData }: { portfolioData: PortfolioData }) 
             <h1 className="font-headline text-5xl md:text-7xl font-bold text-primary">I'm Kishore</h1>
         </header>
 
-        <Alert className="bg-primary/5 border-primary/20">
-            <Monitor className="h-4 w-4" />
-            <AlertTitle>Desktop Experience Recommended</AlertTitle>
-            <AlertDescription>
-                For a more immersive and interactive experience, try viewing this portfolio on a desktop device.
-            </AlertDescription>
-        </Alert>
-        
         {regularSections.map(({ id, title, Component, props }) => (
           <section key={id} id={id} className="w-full">
             <h2 className="font-headline text-3xl font-semibold mb-6 border-b-2 border-primary pb-2">{title}</h2>
@@ -58,12 +48,12 @@ export function MobileView({ portfolioData }: { portfolioData: PortfolioData }) 
             </div>
          </section>
 
-         <section id="blogs" className="w-full">
-            <h2 className="font-headline text-3xl font-semibold mb-6 border-b-2 border-primary pb-2">Blogs</h2>
+         <section id="notes" className="w-full">
+            <h2 className="font-headline text-3xl font-semibold mb-6 border-b-2 border-primary pb-2">Notes</h2>
              <div className="space-y-6">
-                {blogSections.map((blog, index) => (
-                    <Card key={index} className="bg-card/80 backdrop-blur-sm border-none shadow-lg">
-                        <BlogsSection blog={blog} />
+                {noteSections.map((note) => (
+                    <Card key={note.id} className="bg-card/80 backdrop-blur-sm border-none shadow-lg">
+                        <NotesSection note={note} />
                     </Card>
                 ))}
             </div>

@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { validateSession } from '@/lib/session';
 
 export async function GET(request: NextRequest) {
-  const sessionToken = request.cookies.get('admin-session');
-  
-  if (sessionToken) {
+  const sessionCookie = request.cookies.get('admin-session')?.value;
+
+  if (sessionCookie && validateSession(sessionCookie)) {
     return NextResponse.json({ authenticated: true });
-  } else {
-    return NextResponse.json({ authenticated: false });
   }
+
+  return NextResponse.json({ authenticated: false });
 }

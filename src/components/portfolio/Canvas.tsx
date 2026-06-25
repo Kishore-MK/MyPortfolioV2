@@ -1,6 +1,6 @@
 "use client";
-import React, { useRef, useEffect, useCallback } from 'react';
-import { motion, useMotionValue, useAnimate, useSpring, useMotionValueEvent } from 'framer-motion';
+import React, { useEffect, useCallback } from 'react';
+import { motion, useMotionValue, animate } from 'framer-motion';
 import { useGesture } from '@use-gesture/react';
 import { CANVAS_SIZE, generateSections } from '@/lib/config';
 import { usePortfolioStore } from '@/lib/store';
@@ -8,57 +8,65 @@ import { useWindowSize } from '@/hooks/use-window-size';
 import { SectionWrapper } from './SectionWrapper';
 import { PortfolioData } from '@/lib/portfolio-data';
 
-const MIN_SCALE = 0.5;
-const MAX_SCALE = 1.3;
+const MIN_SCALE = 0.4;
+const MAX_SCALE = 1.5;
+
+function clamp(val: number, min: number, max: number) {
+  return Math.max(min, Math.min(max, val));
+}
 
 export function Canvas({ portfolioData }: { portfolioData: PortfolioData }) {
-  const [scope, animate] = useAnimate();
+  const scope = React.useRef<HTMLDivElement>(null);
   const { setTeleport, setCanvasMotionValues } = usePortfolioStore();
   const viewportSize = useWindowSize();
   const sections = generateSections(portfolioData);
 
+  // All three are raw motion values — no springs on user-driven gestures.
+  // Springs are applied programmatically only (teleport, center).
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const scale = useMotionValue(1);
 
-  const springX = useSpring(x, { stiffness: 100, damping: 20 });
-  const springY = useSpring(y, { stiffness: 100, damping: 20 });
-  const springScale = useSpring(scale, { stiffness: 100, damping: 20 });
+  const getBounds = useCallback((s: number) => {
+    const vw = viewportSize.width ?? 0;
+    const vh = viewportSize.height ?? 0;
+    // With transformOrigin "0 0": canvas top-left is always at (x, y).
+    // Right bound 0: can't pull canvas so its left edge goes past viewport left.
+    // Left bound: can't push canvas so its right edge goes past viewport right.
+    return {
+      left:   -(CANVAS_SIZE.width  * s - vw),
+      right:  0,
+      top:    -(CANVAS_SIZE.height * s - vh),
+      bottom: 0,
+    };
+  }, [viewportSize.width, viewportSize.height]);
 
   const centerOnAboutMe = useCallback(() => {
-    const aboutSection = sections.find(s => s.id === 'about');
-    
-    // Add proper type checking and fallbacks
-    if (!aboutSection?.coords || !aboutSection?.size || !viewportSize.width || !viewportSize.height) {
-      return;
-    }
+    const about = sections.find(s => s.id === 'about');
+    if (!about || !viewportSize.width || !viewportSize.height) return;
 
-    // Ensure all values are numbers with fallbacks
-    const aboutLeft = Number(aboutSection.coords.left) || 0;
-    const aboutTop = Number(aboutSection.coords.top) || 0;
-    const aboutWidth = Number(aboutSection.size.width) || 0;
-    const aboutHeight = Number(aboutSection.size.height) || 0;
-    const viewWidth = Number(viewportSize.width) || 0;
-    const viewHeight = Number(viewportSize.height) || 0;
+    const s = 1;
+    const cx = -(about.coords.left + (about.size.width as number) / 2 - viewportSize.width / 2);
+    const cy = -(about.coords.top  + (about.size.height as number) / 2 - viewportSize.height / 2);
 
-    const initialX = -(aboutLeft + aboutWidth / 2) + (viewWidth / 2);
-    const initialY = -(aboutTop + aboutHeight / 2) + (viewHeight / 2);
-
-    x.set(initialX);
-    y.set(initialY);
-    scale.set(1);
-  }, [viewportSize.width, viewportSize.height, x, y, scale, sections]);
+    const b = getBounds(s);
+    x.set(clamp(cx, b.left, b.right));
+    y.set(clamp(cy, b.top,  b.bottom));
+    scale.set(s);
+  }, [sections, viewportSize.width, viewportSize.height, x, y, scale, getBounds]);
 
   useEffect(() => {
     centerOnAboutMe();
   }, [centerOnAboutMe]);
 
-  const teleport = useCallback(async (newPos: { x: number; y: number }) => {
-    x.set(newPos.x);
-    y.set(newPos.y);
-    scale.set(1);
-    animate(scope.current, { x: newPos.x, y: newPos.y, scale: 1 }, { type: 'spring', stiffness: 100, damping: 20 });
-  }, [animate, scope, x, y, scale]);
+  const teleport = useCallback((newPos: { x: number; y: number }) => {
+    const b = getBounds(1);
+    const tx = clamp(newPos.x, b.left, b.right);
+    const ty = clamp(newPos.y, b.top,  b.bottom);
+    animate(scale, 1,  { type: 'spring', stiffness: 200, damping: 28 });
+    animate(x, tx, { type: 'spring', stiffness: 200, damping: 28 });
+    animate(y, ty, { type: 'spring', stiffness: 200, damping: 28 });
+  }, [x, y, scale, getBounds]);
 
   useEffect(() => {
     setTeleport(teleport);
@@ -71,46 +79,43 @@ export function Canvas({ portfolioData }: { portfolioData: PortfolioData }) {
         x.set(dx);
         y.set(dy);
       },
-      onPinch: ({ offset: [d] }) => {
-        const newScale = 1 + d / 200;
-        scale.set(Math.max(MIN_SCALE, Math.min(newScale, MAX_SCALE)));
+      onPinch: ({ origin: [ox, oy], offset: [d] }) => {
+        const oldScale = scale.get();
+        const newScale = clamp(1 + d / 200, MIN_SCALE, MAX_SCALE);
+        const canvasX = (ox - x.get()) / oldScale;
+        const canvasY = (oy - y.get()) / oldScale;
+        const b = getBounds(newScale);
+        x.set(clamp(ox - canvasX * newScale, b.left, b.right));
+        y.set(clamp(oy - canvasY * newScale, b.top,  b.bottom));
+        scale.set(newScale);
       },
       onWheel: ({ event, delta: [, dy] }) => {
-        if ((event.target as HTMLElement).closest('.stop-zoom')) {
-          return;
-        }
+        if ((event.target as HTMLElement).closest('.stop-zoom')) return;
         event.preventDefault();
-        const newScale = scale.get() - dy / 500;
-        scale.set(Math.max(MIN_SCALE, Math.min(newScale, MAX_SCALE)));
-      }
+        const oldScale = scale.get();
+        // Exponential zoom: feels consistent at every zoom level
+        const newScale = clamp(oldScale * Math.exp(-dy * 0.002), MIN_SCALE, MAX_SCALE);
+        const cx = event.clientX;
+        const cy = event.clientY;
+        const canvasX = (cx - x.get()) / oldScale;
+        const canvasY = (cy - y.get()) / oldScale;
+        const b = getBounds(newScale);
+        x.set(clamp(cx - canvasX * newScale, b.left, b.right));
+        y.set(clamp(cy - canvasY * newScale, b.top,  b.bottom));
+        scale.set(newScale);
+      },
     },
     {
       target: scope,
       eventOptions: { passive: false },
       drag: {
         from: () => [x.get(), y.get()],
-        bounds: () => {
-          // Get current scale value from the motion value
-          const s = scale.get();
-          const safeViewWidth = Number(viewportSize.width) || 0;
-          const safeViewHeight = Number(viewportSize.height) || 0;
-          
-          return {
-            left: -CANVAS_SIZE.width * s + safeViewWidth,
-            right: 0,
-            top: -CANVAS_SIZE.height * s + safeViewHeight,
-            bottom: 0,
-          };
-        },
-        rubberband: 0.1,
+        bounds: () => getBounds(scale.get()),
+        rubberband: 0.08,
       },
       pinch: {
         from: () => [scale.get() - 1, 0],
-        bounds: {
-          min: MIN_SCALE,
-          max: MAX_SCALE
-        },
-        rubberband: 0.2
+        rubberband: 0.15,
       },
     }
   );
@@ -124,10 +129,10 @@ export function Canvas({ portfolioData }: { portfolioData: PortfolioData }) {
       style={{
         width: CANVAS_SIZE.width,
         height: CANVAS_SIZE.height,
-        x: springX,
-        y: springY,
-        scale: springScale,
-        transformOrigin: "center center",
+        x,
+        y,
+        scale,
+        transformOrigin: '0 0',
       }}
     >
       {sections.map(({ id, Component, coords, size, title, props }) => (

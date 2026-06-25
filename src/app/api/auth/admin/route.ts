@@ -1,43 +1,44 @@
 import { NextRequest, NextResponse } from 'next/server';
+import crypto from 'crypto';
+import { createSignedSession, SESSION_COOKIE_MAX_AGE } from '@/lib/session';
 
 export async function POST(request: NextRequest) {
   try {
     const { password } = await request.json();
     const adminPassword = process.env.ADMIN_PASSWORD;
+    const adminSecret = process.env.ADMIN_SECRET;
 
-    if (!adminPassword) {
+    if (!adminPassword || !adminSecret) {
       return NextResponse.json(
-        { error: 'Admin password not configured' },
+        { error: 'Server configuration error' },
         { status: 500 }
       );
     }
 
-    if (password === adminPassword) {
-      // Create a simple session token (you might want to use JWT in production)
-      const sessionToken = Math.random().toString(36).substring(2, 15) + 
-                          Math.random().toString(36).substring(2, 15);
-      
-      const response = NextResponse.json({ success: true });
-      
-      // Set HTTP-only cookie for security
-      response.cookies.set('admin-session', sessionToken, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
-        maxAge: 60 * 60 * 24, // 24 hours
-      });
+    // Constant-time comparison prevents timing-based password inference
+    const inputBuf = Buffer.from(password ?? '');
+    const expectedBuf = Buffer.from(adminPassword);
+    const passwordsMatch =
+      inputBuf.length === expectedBuf.length &&
+      crypto.timingSafeEqual(inputBuf, expectedBuf);
 
-      return response;
-    } else {
-      return NextResponse.json(
-        { error: 'Incorrect password' },
-        { status: 401 }
-      );
+    if (!passwordsMatch) {
+      return NextResponse.json({ error: 'Incorrect password' }, { status: 401 });
     }
-  } catch (error) {
-    return NextResponse.json(
-      { error: 'Invalid request' },
-      { status: 400 }
-    );
+
+    const sessionToken = createSignedSession();
+    const response = NextResponse.json({ success: true });
+
+    response.cookies.set('admin-session', sessionToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: SESSION_COOKIE_MAX_AGE,
+      path: '/',
+    });
+
+    return response;
+  } catch {
+    return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
   }
 }

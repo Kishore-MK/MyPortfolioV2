@@ -4,7 +4,7 @@ import { SkillsSection } from "@/components/portfolio/SkillsSection";
 import { ExperienceSection } from "@/components/portfolio/ExperienceSection";
 import { ContactSection } from "@/components/portfolio/ContactSection";
 import { TweetsSection } from "@/components/portfolio/TweetsSection";
-import { BlogsSection } from "@/components/portfolio/BlogsSection";
+import { NotesSection } from "@/components/portfolio/NotesSection";
 import { SectionConfig, PortfolioData } from "./portfolio-data";
 import React from "react";
 
@@ -23,7 +23,7 @@ const componentMap: { [key: string]: React.FC<any> } = {
   project: ProjectsSection,
   experience: ExperienceSection,
   contact: ContactSection,
-  blog: BlogsSection,
+  note: NotesSection,
   tweet: TweetsSection,
 };
 
@@ -35,99 +35,97 @@ const baseSections: Omit<SectionConfig, 'coords' | 'size' | 'minHeight'>[] = [
 ];
 
 const sectionLayouts: {[key: string]: Omit<SectionConfig, 'id' | 'title' | 'minHeight'>} = {
-  about: { coords: { top: 50, left: 1725 }, size: { width: 550, height: 450 } },
-  skills: { coords: { top: 750, left: 250 }, size: { width: 700, height: 550 } },
-  experience: { coords: { top: 750, left: 1100 }, size: { width: 550, height: 450 } },
-  contact: { coords: { top: 2800, left: 1350 }, size: { width: 450, height: 200 } },
+  about:      { coords: { top: 150,  left: 1450 }, size: { width: 550, height: 450 } },
+  skills:     { coords: { top: 750,  left: 100  }, size: { width: 700, height: 550 } },
+  experience: { coords: { top: 750,  left: 950  }, size: { width: 550, height: 500 } },
+  contact:    { coords: { top: 3100, left: 1400 }, size: { width: 450, height: 200 } },
 }
 
+// Deterministic jitter so positions are stable across renders.
+// Returns a value in [-range, +range] based on a seed.
+function jitter(seed: number, range: number): number {
+  return ((seed * 127 + 31) % (range * 2 + 1)) - range;
+}
 
 export function generateSections(portfolioData: PortfolioData): Section[] {
 
-    const TWEET_CARD_WIDTH = 550;
-    const HORIZONTAL_GAP = 50;
-    const BASE_X_TWEETS = 250;
-    const BASE_Y_TWEETS = 1500;
-    const PROJECT_CARD_HEIGHT = 450;
+    // ── Tweets: rows of 3, bottom-left zone (y:1550, x:100)
+    const TWEET_W = 550;
+    const TWEET_GAP = 100;
+    const TWEET_COLS = 3;
+    const TWEET_ROW_H = 600; // estimated max auto height + gap
+    const TWEET_BASE_X = 100;
+    const TWEET_BASE_Y = 1550;
 
     const tweetSections: Section[] = portfolioData.tweets.map((tweet, index) => {
-        const offsetX = Math.random() * 100 - 50;
-        const offsetY = Math.random() * 100 - 50;
-
+        const col = index % TWEET_COLS;
+        const row = Math.floor(index / TWEET_COLS);
         return {
             id: `tweet-${index}`,
             title: `Tweet`,
-            coords: { 
-                top: BASE_Y_TWEETS + offsetY,
-                left: BASE_X_TWEETS + index * (TWEET_CARD_WIDTH + HORIZONTAL_GAP) + offsetX
+            coords: {
+                top:  TWEET_BASE_Y + row * TWEET_ROW_H  + jitter(index * 3 + 1, 12),
+                left: TWEET_BASE_X + col * (TWEET_W + TWEET_GAP) + jitter(index * 7, 12),
             },
-            size: { width: TWEET_CARD_WIDTH, height: 'auto' },
-            minHeight: PROJECT_CARD_HEIGHT,
+            size: { width: TWEET_W, height: 'auto' },
+            minHeight: 450,
             Component: componentMap['tweet'],
-            props: { tweet: tweet }
-        }
+            props: { tweet },
+        };
     });
 
-    const projectSections: Section[] = portfolioData.projects.map((project, index) => {
-        const CARD_WIDTH = 400;
-        const CARD_HEIGHT = 530;
-        const GAP = 50;
-        const COLS = 3;
-        const BASE_X = 1800;
-        const BASE_Y = 750;
+    // ── Projects: 3-col grid, right zone (y:200, x:2200)
+    const PROJ_W = 420;
+    const PROJ_H = 530;
+    const PROJ_GAP = 100;
+    const PROJ_COLS = 3;
+    const PROJ_BASE_X = 2200;
+    const PROJ_BASE_Y = 200;
 
-        const col = index % COLS;
-        const row = Math.floor(index / COLS);
-        
-        const offsetX = Math.random() * 100 - 50;
-        const offsetY = Math.random() * 100 - 50;
-        
+    const projectSections: Section[] = portfolioData.projects.map((project, index) => {
+        const col = index % PROJ_COLS;
+        const row = Math.floor(index / PROJ_COLS);
         return {
             id: `project-${index}`,
             title: project.title,
-            coords: { 
-                top: BASE_Y + row * (CARD_HEIGHT + GAP) + offsetY,
-                left: BASE_X + col * (CARD_WIDTH + GAP) + offsetX,
+            coords: {
+                top:  PROJ_BASE_Y + row * (PROJ_H + PROJ_GAP) + jitter(index * 5, 12),
+                left: PROJ_BASE_X + col * (PROJ_W + PROJ_GAP) + jitter(index * 11, 12),
             },
-            size: { width: CARD_WIDTH, height: CARD_HEIGHT },
+            size: { width: PROJ_W, height: PROJ_H },
             Component: componentMap['project'],
-            props: { project }
-        }
+            props: { project },
+        };
     });
 
-    const blogSections: Section[] = portfolioData.blogs.map((blog, index) => {
-        const CARD_WIDTH = 450;
-        const CARD_HEIGHT = 500;
-        const GAP = 50;
-        const COLS = 2;
-        const BASE_X = 2500;
-        const BASE_Y = 1800;
+    // ── Notes: 2-col grid, right zone below tweets (y:1550, x:2200)
+    const NOTE_W = 420;
+    const NOTE_H = 450;
+    const NOTE_GAP = 100;
+    const NOTE_COLS = 2;
+    const NOTE_BASE_X = 2200;
+    const NOTE_BASE_Y = 1550;
 
-        const col = index % COLS;
-        const row = Math.floor(index / COLS);
-        
-        const offsetX = Math.random() * 100 - 50;
-        const offsetY = Math.random() * 100 - 50;
-        
+    const noteSections: Section[] = portfolioData.notes.map((note, index) => {
+        const col = index % NOTE_COLS;
+        const row = Math.floor(index / NOTE_COLS);
         return {
-            id: `blog-${index}`,
-            title: blog.title,
-            coords: { 
-                top: BASE_Y + row * (CARD_HEIGHT + GAP) + offsetY,
-                left: BASE_X + col * (CARD_WIDTH + GAP) + offsetX,
+            id: `note-${note.id}`,
+            title: note.title,
+            coords: {
+                top:  NOTE_BASE_Y + row * (NOTE_H + NOTE_GAP) + jitter(note.id * 3 + 2, 12),
+                left: NOTE_BASE_X + col * (NOTE_W + NOTE_GAP) + jitter(note.id * 7 + 4, 12),
             },
-            size: { width: CARD_WIDTH, height: CARD_HEIGHT },
-            Component: componentMap['blog'],
-            props: { blog }
-        }
+            size: { width: NOTE_W, height: NOTE_H },
+            Component: componentMap['note'],
+            props: { note },
+        };
     });
 
-
+    // ── Static sections: fixed positions, no jitter
     const finalBaseSections: Section[] = baseSections.map(sectionInfo => {
       let props = {};
       const layout = sectionLayouts[sectionInfo.id];
-      const offsetX = Math.random() * 100 - 50;
-      const offsetY = Math.random() * 100 - 50;
 
       switch (sectionInfo.id) {
         case 'about':
@@ -147,19 +145,15 @@ export function generateSections(portfolioData: PortfolioData): Section[] {
       return {
           ...sectionInfo,
           ...layout,
-          coords: {
-            top: layout.coords.top + offsetY,
-            left: layout.coords.left + offsetX,
-          },
           Component: componentMap[sectionInfo.id],
-          props
-      }
+          props,
+      };
     })
 
     return [
         ...finalBaseSections,
         ...tweetSections,
         ...projectSections,
-        ...blogSections,
+        ...noteSections,
     ];
 }

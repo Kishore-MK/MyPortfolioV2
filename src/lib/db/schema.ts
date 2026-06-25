@@ -1,4 +1,4 @@
-import { pgTable, serial, text, varchar, integer, boolean, jsonb, primaryKey } from 'drizzle-orm/pg-core';
+import { pgTable, serial, text, varchar, integer, timestamp } from 'drizzle-orm/pg-core';
 
 export const about = pgTable('about', {
   id: serial('id').primaryKey(),
@@ -57,4 +57,11 @@ export const socialLinks = pgTable('social_links', {
     name: varchar('name', { length: 256 }).notNull(),
     url: varchar('url', { length: 256 }).notNull(),
     contactId: integer('contact_id').references(() => contact.id),
+});
+
+export const notes = pgTable('notes', {
+    id: serial('id').primaryKey(),
+    title: varchar('title', { length: 256 }).notNull(),
+    body: text('body').notNull(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
 });
